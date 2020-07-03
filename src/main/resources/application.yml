@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@127.0.0.1:1521:orcl
+    username: scott
+    password: scott
+mybatis-plus:
+  type-aliases-package: com.ssh.oracle.entity
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  global-config:
+    db-config:
+      id-type: input
+      db-type: oracle
