@@ -1,6 +1,7 @@
 package com.ssh.oracle.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ssh.oracle.entity.Employees;
@@ -10,6 +11,7 @@ import com.ssh.oracle.utils.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -33,10 +35,19 @@ public class EmployeesController {
     @ResponseBody
     @GetMapping("/queryPage")
     public R queryPage(@RequestParam(required = false, defaultValue = "1") Integer page,
-                       @RequestParam(required = false, defaultValue = "10") Integer limit) {
+                       @RequestParam(required = false, defaultValue = "10") Integer limit,
+                       @RequestParam(required = false) String firstName,
+                       @RequestParam(required = false) String lastName) {
 //        PageUtils page = employeesService.queryPage(params);
-        IPage<Employees> iPage = employeesService.page(new Page<>(page, limit));
+        QueryWrapper<Employees> queryWrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(firstName)) {
+            queryWrapper.like("FIRST_NAME", firstName);
+        }
+        if (!StringUtils.isEmpty(firstName)) {
+            queryWrapper.like("LAST_NAME", lastName);
+        }
+        queryWrapper.orderByDesc("SALARY");
+        IPage<Employees> iPage = employeesService.page(new Page<>(page, limit), queryWrapper);
         return R.ok().put("data", iPage.getRecords()).put("count", iPage.getTotal());
     }
 }
-

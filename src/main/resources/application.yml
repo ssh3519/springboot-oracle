@@ -11,3 +11,6 @@ mybatis-plus:
     db-config:
       id-type: input
       db-type: oracle
+logging:
+  level:
+    com.ssh.oracle: debug

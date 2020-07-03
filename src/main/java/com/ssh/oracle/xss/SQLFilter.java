@@ -1,6 +1,5 @@
 package com.ssh.oracle.xss;
 
-
 import com.ssh.oracle.exception.RRException;
 import org.apache.commons.lang.StringUtils;
 
